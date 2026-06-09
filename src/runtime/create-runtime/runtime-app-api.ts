@@ -523,12 +523,16 @@ export function createRuntimeAppApi(options: CreateRuntimeAppApiOptions): Runtim
       }
       const canvas = getCanvas();
       instance.setPixelSize(wasmHandle, canvas.width, canvas.height);
+      // Sync wasmHandle to closure BEFORE applying theme,
+      // otherwise applyTheme can't push palette to WASM.
+      writeState({ wasmHandle });
       const activeTheme = lifecycleThemeSizeRuntime.getActiveTheme();
       if (activeTheme) {
         applyTheme(activeTheme, activeTheme.name ?? "cached theme");
+      } else {
+        instance.renderUpdate(wasmHandle);
       }
-      instance.renderUpdate(wasmHandle);
-      writeState({ wasmHandle, needsRender: true });
+      writeState({ needsRender: true });
       handleSearchWasmReset();
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
