@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { fitTextTailToWidth } from "../src/runtime/create-app-io-utils";
 
 test("fitTextTailToWidth keeps full text when it already fits", () => {

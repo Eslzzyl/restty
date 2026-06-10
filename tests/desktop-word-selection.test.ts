@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { resolveDesktopWordSelectionRange } from "../src/runtime/create-runtime/interaction-runtime/desktop-word-selection";
 import type { RenderState } from "../src/wasm";
 

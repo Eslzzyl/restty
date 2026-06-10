@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import {
   getBuiltinTheme,
   getBuiltinThemeSource,
@@ -14,7 +14,7 @@ test("builtin theme catalog has unique names and valid sources", () => {
   for (const name of names) {
     expect(isBuiltinThemeName(name)).toBe(true);
     const source = getBuiltinThemeSource(name);
-    expect(source).toBeString();
+    expect(source).toEqual(expect.any(String));
     expect(source!.length).toBeGreaterThan(0);
   }
 });

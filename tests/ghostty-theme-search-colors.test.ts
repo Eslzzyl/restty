@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { parseGhosttyTheme } from "../src/theme";
 
 test("parseGhosttyTheme reads Ghostty search color keys", () => {

@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { readPastePayloadFromDataTransfer } from "../src/runtime/clipboard-paste";
 
 type MockDataTransfer = {

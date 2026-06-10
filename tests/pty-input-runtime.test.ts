@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import type { InputHandler } from "../src/input";
 import type { PtyTransport } from "../src/pty";
 import { createPtyInputRuntime } from "../src/runtime/create-runtime/pty-input-runtime";

@@ -1,5 +1,6 @@
+import { readFile } from "node:fs/promises";
 import "../scripts/setup-wgpu-polyfill";
-import { test, expect } from "bun:test";
+import { test, expect } from "vitest";
 import { installPolyfill, GPUTextureUsage, GPUBufferUsage, GPUMapMode } from "wgpu-polyfill";
 import { Font, buildAtlas, atlasToRGBA, PixelMode } from "../reference/text-shaper/src/index.ts";
 import { GLYPH_SHADER_NEAREST } from "../src/renderer/shaders/glyph-wgsl.ts";
@@ -8,7 +9,7 @@ const FONT_PATH = "playground/public/fonts/SymbolsNerdFontMono-Regular.ttf";
 const CP = 0xf011b;
 
 async function loadFont() {
-  const buffer = await Bun.file(FONT_PATH).arrayBuffer();
+  const buffer = await readFile(FONT_PATH);
   return Font.loadAsync(buffer);
 }
 

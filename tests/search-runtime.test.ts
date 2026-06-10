@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, test } from "bun:test";
+import { afterEach, beforeEach, expect, test } from "vitest";
 import { createRuntimeSearch } from "../src/runtime/create-runtime/search-runtime";
 import type { ResttySearchState } from "../src/runtime/types";
 import type { SearchStatus, SearchViewportMatch } from "../src/wasm";

@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createRuntimeReporting } from "../src/runtime/create-runtime/runtime-reporting";
 
 function createReporting(options: {

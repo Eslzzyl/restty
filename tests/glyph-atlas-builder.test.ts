@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { buildGlyphAtlasWithConstraints } from "../src/runtime/font-atlas-utils/glyph-atlas-builder";
 
 test("buildGlyphAtlasWithConstraints forwards hintTarget to rasterize options", () => {

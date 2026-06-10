@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { OutputFilter } from "../src/input/output/index";
 
 test("output filter replies to XTVERSION query (CSI > q)", () => {

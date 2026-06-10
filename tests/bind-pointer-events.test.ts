@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import type { InputHandler } from "../src/input";
 import { bindPointerEvents } from "../src/runtime/create-runtime/interaction-runtime/bind-pointer-events";
 

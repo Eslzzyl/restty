@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createResttyFontResourceStore } from "../src/runtime/font-resource-store";
 import type { ResttyFontSource } from "../src/runtime/types";
 

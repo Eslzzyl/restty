@@ -1,16 +1,7 @@
-import { stat } from "node:fs/promises";
-import { relative, resolve } from "node:path";
-
-type BundleEntry = {
-  input: string;
-  outputName: string;
-};
-
-const entries: BundleEntry[] = [
-  { input: "./src/index.ts", outputName: "restty.esm.js" },
-  { input: "./src/internal.ts", outputName: "internal.esm.js" },
-  { input: "./src/xterm.ts", outputName: "xterm.esm.js" },
-];
+import { build } from "vite";
+import { readdir, stat } from "node:fs/promises";
+import { resolve } from "node:path";
+import { defineConfig } from "vite";
 
 const distDir = resolve("dist");
 
@@ -20,34 +11,43 @@ const formatBytes = (value: number) => {
   return `${(value / (1024 * 1024)).toFixed(2)} MB`;
 };
 
+const entries: { input: string; name: string }[] = [
+  { input: "src/index.ts", name: "restty.esm" },
+  { input: "src/internal.ts", name: "internal.esm" },
+  { input: "src/xterm.ts", name: "xterm.esm" },
+];
+
 console.log("Building standalone ESM bundles...\n");
 
 let hasErrors = false;
 
 for (const entry of entries) {
-  const result = await Bun.build({
-    entrypoints: [entry.input],
-    outdir: distDir,
-    target: "browser",
-    format: "esm",
-    splitting: false,
-    minify: true,
-    naming: entry.outputName,
-  });
+  try {
+    await build({
+      configFile: false,
+      build: {
+        lib: {
+          entry: resolve(entry.input),
+          formats: ["es"],
+          fileName: () => `${entry.name}.js`,
+        },
+        outDir: distDir,
+        emptyOutDir: false,
+        minify: true,
+        sourcemap: false,
+        rollupOptions: {
+          external: ["text-shaper"],
+        },
+      },
+    });
 
-  if (!result.success) {
+    const outputPath = resolve(distDir, `${entry.name}.js`);
+    const info = await stat(outputPath);
+    console.log(`  ${entry.name}.js (${formatBytes(info.size)})`);
+  } catch (err) {
     hasErrors = true;
-    console.error(`FAIL  ${entry.outputName}`);
-    for (const log of result.logs) console.error(log);
-    continue;
-  }
-
-  const outputPath = resolve(distDir, entry.outputName);
-  const info = await stat(outputPath);
-  console.log(`  ${relative(distDir, outputPath)} (${formatBytes(info.size)})`);
-
-  if (result.logs.length > 0) {
-    for (const log of result.logs) console.log(log);
+    console.error(`FAIL  ${entry.name}.js`);
+    console.error(err);
   }
 }
 

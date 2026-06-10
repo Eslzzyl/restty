@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, test } from "bun:test";
+import { afterEach, beforeEach, expect, test } from "vitest";
 import {
   createPaneSearchUiController,
   type ResttyPaneSearchUiPane,
@@ -348,12 +348,17 @@ function installFakeDom(): void {
   Object.assign(globalThis, {
     document: fakeDocument,
     window: fakeDocument.defaultView,
-    navigator: { platform: "MacIntel" },
     Node: FakeNode,
     HTMLElement: FakeElement,
     HTMLDivElement: FakeElement,
     HTMLInputElement: FakeElement,
     HTMLButtonElement: FakeElement,
+  });
+  // navigator is read-only in Node, define via property descriptor
+  Object.defineProperty(globalThis, "navigator", {
+    value: { platform: "MacIntel" },
+    writable: true,
+    configurable: true,
   });
 }
 

@@ -1,4 +1,4 @@
-import { beforeAll, expect, test } from "bun:test";
+import { beforeAll, expect, test } from "vitest";
 import { loadResttyWasm } from "../src/wasm/runtime/restty-wasm";
 
 let wasm: Awaited<ReturnType<typeof loadResttyWasm>>;

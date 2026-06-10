@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createRuntimeInteraction } from "../src/runtime/create-runtime/interaction-runtime";
 
 class FakeCanvas {

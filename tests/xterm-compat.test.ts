@@ -1,4 +1,4 @@
-import { beforeEach, expect, mock, test } from "bun:test";
+import { beforeEach, expect, vi, test } from "vitest";
 
 type FakeWrite = {
   text: string;
@@ -221,7 +221,7 @@ function createFakeManager(options: any): FakeManager {
   };
 }
 
-mock.module("../src/surface/pane-app-manager", () => ({
+vi.mock("../src/surface/pane-app-manager", () => ({
   createResttyAppPaneManager: (options: any) => createFakeManager(options),
 }));
 

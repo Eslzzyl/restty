@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { loadResttyWasm } from "../src/wasm/runtime/restty-wasm";
 
 const PNG_1X1_BASE64 =

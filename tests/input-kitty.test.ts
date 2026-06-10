@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { encodeKeyEvent } from "../src/input/keymap";
 
 const KITTY_FLAG_DISAMBIGUATE = 1 << 0;

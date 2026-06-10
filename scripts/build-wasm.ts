@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..");
@@ -10,13 +11,13 @@ const embeddedWasmPath = resolve(root, "src/wasm/embedded.ts");
 const wasmOptimizeMode = process.env.RESTTY_WASM_OPTIMIZE?.trim() || "ReleaseSafe";
 
 function runCommand(command: string[], cwd: string): void {
-  const proc = Bun.spawnSync(command, {
+  const proc = spawnSync(command[0], command.slice(1), {
     cwd,
     stdio: ["ignore", "inherit", "inherit"],
   });
 
-  if (proc.exitCode !== 0) {
-    process.exit(proc.exitCode ?? 1);
+  if (proc.status !== 0) {
+    process.exit(proc.status ?? 1);
   }
 }
 

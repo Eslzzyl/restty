@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createMergedPaneAppOptions } from "../src/surface/restty/manager-options";
 
 test("createMergedPaneAppOptions captures paneId snapshot for callbacks and hooks", () => {

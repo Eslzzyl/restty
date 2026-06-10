@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { encodeBeforeInput, encodeKeyEvent, mapKeyForPty, sequences } from "../src/input/keymap";
 
 type KeyEventOverrides = Partial<KeyboardEvent> & {

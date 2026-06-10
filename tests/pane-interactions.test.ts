@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createPaneInteractions } from "../src/surface/panes/pane-interactions";
 import type {
   ResttyPaneContextMenuOptions,

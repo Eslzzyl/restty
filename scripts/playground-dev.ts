@@ -1,13 +1,11 @@
+import { spawn } from "node:child_process";
+
 const children = [
-  Bun.spawn(["bun", "run", "playground/pty-server.ts"], {
-    stdout: "inherit",
-    stderr: "inherit",
-    stdin: "inherit",
+  spawn("tsx", ["playground/pty-server.ts"], {
+    stdio: "inherit",
   }),
-  Bun.spawn(["bun", "run", "playground/dev-server.ts"], {
-    stdout: "inherit",
-    stderr: "inherit",
-    stdin: "inherit",
+  spawn("pnpx", ["vite", "--config", "vite.playground.config.ts"], {
+    stdio: "inherit",
   }),
 ];
 
@@ -17,9 +15,7 @@ function shutdown(signalCode = 0) {
   if (shuttingDown) return;
   shuttingDown = true;
   for (const child of children) {
-    if (child.exitCode === null) {
-      child.kill();
-    }
+    child.kill();
   }
   process.exit(signalCode);
 }
@@ -27,14 +23,15 @@ function shutdown(signalCode = 0) {
 process.on("SIGINT", () => shutdown(130));
 process.on("SIGTERM", () => shutdown(143));
 
-const results = await Promise.race(
-  children.map((child, index) =>
-    child.exited.then((code) => ({
-      index,
-      code,
-    })),
+// Wait for any child to exit
+await Promise.race(
+  children.map(
+    (child) =>
+      new Promise<void>((resolve) => {
+        child.on("exit", (code) => {
+          shutdown(code ?? 1);
+          resolve();
+        });
+      }),
   ),
 );
-
-const exitCode = Number.isFinite(results.code) ? results.code : 1;
-shutdown(exitCode);

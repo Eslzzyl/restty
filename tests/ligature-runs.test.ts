@@ -1,4 +1,5 @@
-import { expect, test } from "bun:test";
+import { readFile } from "node:fs/promises";
+import { expect, test } from "vitest";
 import {
   Font,
   UnicodeBuffer,
@@ -17,8 +18,9 @@ function rgba(bytes: number[]): Uint8Array {
 }
 
 async function loadFont(path: string) {
-  const buffer = await Bun.file(path).arrayBuffer();
-  return Font.loadAsync(buffer);
+  const buffer = await readFile(path);
+  const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+  return Font.loadAsync(arrayBuffer);
 }
 
 test("resolveLigatureRun groups visually uniform operator runs", () => {

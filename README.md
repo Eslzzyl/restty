@@ -357,13 +357,15 @@ Use these only when you need lower-level control:
 
 ## Local Development
 
+Prerequisites: **Node.js >=20.19.0** and **pnpm**.
+
 ```bash
 git clone https://github.com/wiedymi/restty.git
 cd restty
 git submodule update --init --recursive
-bun install
-bun run build:themes
-bun run playground
+pnpm install
+pnpm run build:themes
+pnpm run playground
 ```
 
 Open `http://localhost:5173`.
@@ -378,14 +380,14 @@ Open `http://localhost:5173`.
 ## Repository Commands
 
 ```bash
-bun run build         # build package output
-bun run test          # full tests
-bun run test:ci       # CI-safe test target
-bun run lint          # lint
-bun run format:check  # formatting check
-bun run build:assets  # static playground bundle (playground/public/playground.js)
-bun run playground    # one-command local dev (PTY + playground dev server)
-bun run pty           # PTY websocket server only
+pnpm run build         # build package output
+pnpm test              # full tests
+pnpm run test:ci       # CI-safe test target
+pnpm run lint          # lint
+pnpm run format:check  # formatting check
+pnpm run build:assets  # static playground bundle
+pnpm run playground    # one-command local dev (PTY + Vite dev server)
+pnpm run pty           # PTY websocket server only
 ```
 
 ## Documentation

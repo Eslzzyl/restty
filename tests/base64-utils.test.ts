@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { decodeBase64Bytes, decodeBase64Text, encodeBase64Bytes } from "../src/utils/base64";
 
 test("base64 utils round-trip UTF-8 text", () => {

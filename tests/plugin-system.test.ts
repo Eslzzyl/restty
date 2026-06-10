@@ -1,4 +1,4 @@
-import { expect, mock, test } from "bun:test";
+import { expect, vi, test } from "vitest";
 import type { ResttyPlugin } from "../src/surface/restty";
 
 type FakePane = {
@@ -240,7 +240,7 @@ function createFakeManager(options: any): FakeManager {
   };
 }
 
-mock.module("../src/surface/pane-app-manager", () => ({
+vi.mock("../src/surface/pane-app-manager", () => ({
   createResttyAppPaneManager: (options: any) => createFakeManager(options),
 }));
 

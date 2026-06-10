@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import {
   DEFAULT_IME_FONT_FAMILY,
   PREEDIT_ACTIVE_BG,

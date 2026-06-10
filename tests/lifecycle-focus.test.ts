@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createLifecycleCanvasHandlers } from "../src/runtime/create-runtime/lifecycle-theme-size-canvas";
 
 type FakeDoc = {

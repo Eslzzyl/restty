@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { decodePtyBinary } from "../src/pty/pty";
 
 function decodeWithStreaming(bytes: Uint8Array, splitAt: number): string {
