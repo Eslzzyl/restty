@@ -47,59 +47,114 @@
       <div class="panel settings-panel">
         <header>
           <h1>restty</h1>
+          <div class="status-bar">
+            <span id="backend">-</span>
+            <span><span id="fps">0</span> fps</span>
+            <span id="termSize">0x0</span>
+          </div>
+          <button id="settingsClose" class="settings-close" type="button" aria-label="Close settings">✕</button>
         </header>
 
         <section class="section">
-          <div class="section-title">Restart</div>
+          <div class="section-title">Terminal</div>
+          <div class="btn-row">
+            <button id="btnInit">Init</button>
+            <button id="btnPause">Pause</button>
+            <button id="btnClear">Clear</button>
+          </div>
           <div class="field-row">
-            <button id="restartBtn" class="primary" type="button">Restart</button>
+            <label>
+              <span>Renderer</span>
+              <select id="rendererSelect">
+                <option value="auto">Auto</option>
+                <option value="webgpu">WebGPU</option>
+                <option value="webgl2">WebGL2</option>
+              </select>
+            </label>
+            <label>
+              <span>Font</span>
+              <input id="fontSize" type="number" min="10" max="64" step="1" value="18" />
+            </label>
           </div>
         </section>
 
         <section class="section">
-          <div class="section-title">Font</div>
+          <div class="section-title">Connection</div>
           <div class="field-row">
-            <label for="fontSelect">Family</label>
-            <select id="fontSelect"></select>
+            <label>
+              <span>Backend</span>
+              <select id="connectionBackend">
+                <option value="ws">WebSocket PTY</option>
+                <option value="webcontainer" selected>WebContainer</option>
+              </select>
+            </label>
           </div>
           <div class="field-row">
-            <label for="fontSizeInput">Size</label>
-            <input id="fontSizeInput" type="number" value="14" min="6" max="72" />
+            <input id="ptyUrl" type="text" value="ws://localhost:8787/pty" placeholder="PTY URL" />
+            <input id="ptyShell" type="text" value="" placeholder="Shell (optional)" />
+            <button id="btnPty">Connect</button>
           </div>
           <div class="field-row">
-            <label for="fontWeightSelect">Weight</label>
-            <select id="fontWeightSelect">
-              <option value="100">Thin</option>
-              <option value="200">Extra Light</option>
-              <option value="300">Light</option>
-              <option value="400">Regular</option>
-              <option value="500">Medium</option>
-              <option value="600">Semi Bold</option>
-              <option value="700">Bold</option>
-              <option value="800">Extra Bold</option>
-              <option value="900">Black</option>
+            <input id="wcCommand" type="text" value="jsh" placeholder="WebContainer command" />
+            <input id="wcCwd" type="text" value="/" placeholder="WebContainer cwd" />
+          </div>
+          <div id="connectionHint" class="hint">Using in-browser WebContainer process</div>
+          <div class="pty-status"><span id="ptyStatus">disconnected</span></div>
+        </section>
+
+        <section class="section">
+          <div class="section-title">Appearance</div>
+          <div class="field-row">
+            <select id="fontFamily">
+              <option value="fira-code" selected>Base Font: Fira Code (default)</option>
+              <option value="jetbrains">Base Font: JetBrains Mono</option>
             </select>
           </div>
           <div class="field-row">
-            <label for="letterSpacingInput">Spacing</label>
-            <input id="letterSpacingInput" type="number" value="0" min="-5" max="20" step="0.5" />
+            <select id="ligatures">
+              <option value="on" selected>Ligatures: On</option>
+              <option value="off">Ligatures: Off</option>
+            </select>
+            <select id="fontHinting">
+              <option value="off" selected>Hinting: Off</option>
+              <option value="on">Hinting: On</option>
+            </select>
+            <select id="fontHintTarget">
+              <option value="auto" selected>Hint Target: Auto</option>
+              <option value="light">Hint Target: Light</option>
+              <option value="normal">Hint Target: Normal</option>
+            </select>
           </div>
-        </section>
-
-        <section class="section">
-          <div class="section-title">Theme</div>
-          <div class="field-row">
-            <label for="themeSelect">Colors</label>
-            <select id="themeSelect"></select>
+          <div class="hint">
+            Bundled Fira Code is available for ligature debugging in the playground.
           </div>
           <div class="field-row">
-            <label for="bgBlurSlider">Bg Blur</label>
-            <input id="bgBlurSlider" type="range" min="0" max="20" value="0" step="1" />
+            <select id="fontFamilyLocal">
+              <option value="">Local Font: None</option>
+            </select>
+            <button id="btnLoadLocalFonts" type="button">Detect Local</button>
+          </div>
+          <div id="fontFamilyHint" class="hint">Main font family for all panes. Use Detect Local to add system fonts.</div>
+          <div class="field-row">
+            <select id="themeSelect">
+              <option value="">Default Theme</option>
+            </select>
+            <label class="file-input">
+              <input id="themeFile" type="file" accept=".conf,.theme,.txt" />
+              <span>Upload</span>
+            </label>
           </div>
           <div class="field-row">
-            <label for="shaderSelect">Shader</label>
-            <select id="shaderSelect">
-              <option value="none">Shader: None</option>
+            <select id="mouseMode">
+              <option value="auto" selected>Mouse: Auto</option>
+              <option value="on">Mouse: On</option>
+              <option value="off">Mouse: Off</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <select id="shaderPreset">
+              <option value="none" selected>Shader: None</option>
+              <option value="scanline">Shader: Scanline</option>
               <option value="aurora">Shader: Aurora</option>
               <option value="crt-lite">Shader: CRT Lite</option>
               <option value="mono-green">Shader: Mono Green</option>

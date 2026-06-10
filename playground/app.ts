@@ -34,6 +34,7 @@ const connectionBackendEl = document.getElementById(
   "connectionBackend",
 ) as HTMLSelectElement | null;
 const ptyUrlInput = document.getElementById("ptyUrl") as HTMLInputElement | null;
+const ptyShellInput = document.getElementById("ptyShell") as HTMLInputElement | null;
 const wcCommandInput = document.getElementById("wcCommand") as HTMLInputElement | null;
 const wcCwdInput = document.getElementById("wcCwd") as HTMLInputElement | null;
 const connectionHintEl = document.getElementById("connectionHint") as HTMLElement | null;
@@ -620,13 +621,19 @@ function getConnectionBackend(): ConnectionBackend {
 
 function getConnectUrl(): string {
   if (getConnectionBackend() === "webcontainer") return "";
-  return ptyUrlInput?.value?.trim() ?? "";
+  const base = ptyUrlInput?.value?.trim() ?? "";
+  if (!base) return "";
+  const shell = ptyShellInput?.value?.trim();
+  if (!shell) return base;
+  const separator = base.includes("?") ? "&" : "?";
+  return `${base}${separator}shell=${encodeURIComponent(shell)}`;
 }
 
 function syncConnectionUi() {
   const backend = getConnectionBackend();
   const webcontainerMode = backend === "webcontainer";
   if (ptyUrlInput) ptyUrlInput.disabled = webcontainerMode;
+  if (ptyShellInput) ptyShellInput.disabled = webcontainerMode;
   if (wcCommandInput) wcCommandInput.disabled = !webcontainerMode;
   if (wcCwdInput) wcCwdInput.disabled = !webcontainerMode;
   if (connectionHintEl) {
