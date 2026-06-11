@@ -394,7 +394,7 @@ const StreamHandler = struct {
         req: ghostty.DeviceAttributeReq,
     ) !void {
         switch (req) {
-            .primary => try self.appendOutput("\x1b[?62;22;52c"),
+            .primary => try self.appendOutput("\x1b[?65;22;52c"),
             .secondary => try self.appendOutput("\x1b[>1;10;0c"),
             else => {},
         }
