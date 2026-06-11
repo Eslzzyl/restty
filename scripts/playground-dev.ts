@@ -20,8 +20,23 @@ function shutdown(signalCode = 0) {
   process.exit(signalCode);
 }
 
+// Cross-platform signal handling.
+// SIGINT/SIGTERM work on Windows since Node.js 0.10+.
 process.on("SIGINT", () => shutdown(130));
 process.on("SIGTERM", () => shutdown(143));
+
+// Windows fallback: when spawned children share the console, Ctrl+C may
+// be intercepted by the child before reaching the parent's SIGINT handler.
+// This raw-mode stdin listener catches Ctrl+C at the input level.
+if (process.platform === "win32" && process.stdin?.isTTY) {
+  process.stdin.setRawMode(true);
+  process.stdin.resume();
+  process.stdin.on("data", (data: Buffer) => {
+    if (data.length === 1 && data[0] === 0x03) {
+      shutdown(130);
+    }
+  });
+}
 
 // Wait for any child to exit
 await Promise.race(
